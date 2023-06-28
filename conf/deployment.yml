@@ -1,0 +1,28 @@
+custom:
+
+  # Cluster configs for each environment
+  default-cluster-spec: &default-cluster-spec
+    spark_version: '12.2.x-cpu-ml-scala2.12'
+    node_type_id: 'i3.xlarge' # NOTE: this is an AWS-specific instance type. Change accordingly if running on Azure or GCP.
+    driver_node_type_id: 'i3.xlarge'  # NOTE: this is an AWS-specific instance type. Change accordingly if running on Azure or GCP.
+    num_workers: 1
+
+  dev-cluster-config: &dev-cluster-config
+    new_cluster:
+      <<: *default-cluster-spec
+
+
+
+# Databricks Jobs definitions
+environments:
+  dev:
+    strict_path_adjustment_policy: true
+
+    jobs:
+      - name: 'model-training-pipeline'
+        <<: *dev-cluster-config
+        schedule:
+          quartz_cron_expression: "0 0 0 * * ?"
+          timezone_id: 'Asia/Bangkok'
+        spark_python_task:
+          python_file: 'file://taxi_travel_regressor/train_automl.py'
