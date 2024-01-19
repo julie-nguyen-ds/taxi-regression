@@ -27,8 +27,9 @@
 # COMMAND ----------
 
 target_column = "trip_duration"
-df_train = spark.read.table("mdp_kbank.poc_data_science_db.nyc_taxi_train")
-df_test = spark.read.table("mdp_kbank.poc_data_science_db.nyc_taxi_test")
+df_train = spark.read.table("jn_catalog.datasets.nyc_taxi")
+df_test = spark.read.table("jn_catalog.datasets.nyc_taxi")
+
 
 # COMMAND ----------
 
